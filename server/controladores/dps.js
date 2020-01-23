@@ -1,15 +1,3 @@
-const SerialPort = require('serialport')
-const Readline = require('@serialport/parser-readline')
-const serialPort = new SerialPort('/dev/ttyACM0', {
-  baudRate: 9600
-})
-
-const parser = new Readline()
-serialPort.pipe(parser)
-
-parser.on('data', line => console.log(`> ${line}`))
-
-
 
 var Gpio = require('onoff').Gpio;
 var LED1 = new Gpio(23, 'out');
@@ -47,7 +35,6 @@ function initAbajo() {
   flagAction = true;
   flagAbajo = true;
   dirPin.writeSync(0);
-  serialPort.write("2\r\n");
   console.error('buscando Abajo');
   IO.emit("messages", "buscando Abajo");
 
@@ -62,7 +49,6 @@ Arriba.watch(function (err, value) {
   if (value == 0 && flagAction == false) {
     flagAction = true;
     flagArriba = true;
-    serialPort.write("1\r\n");
     console.log('buscando Arriba');
     IO.emit("messages", "buscando Arriba");
   }
@@ -77,7 +63,6 @@ Abajo.watch(function (err, value) {
   if (value == 0 && flagAction == false) {
     flagAction = true;
     flagAbajo = true;
-    serialPort.write("2\r\n");
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
   }
@@ -94,7 +79,6 @@ FC0.watch(function (err, value) {
     flagAbajo = false;
     console.log('FC0');
     IO.emit("messages", "nivel0");
-    serialPort.write("3\r\n");
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
@@ -111,7 +95,6 @@ FC1.watch(function (err, value) {
     flagArriba = false;
     console.log('FC1');
     IO.emit("messages", "nivel1");
-    serialPort.write("3\r\n");
     LED1.writeSync(1);
     LED2.writeSync(0);
     LED3.writeSync(0);
@@ -128,7 +111,6 @@ FC2.watch(function (err, value) {
     flagArriba = false;
     console.log('FC2');
     IO.emit("messages", "nivel2");
-    serialPort.write("3\r\n");
     LED1.writeSync(0);
     LED2.writeSync(1);
     LED3.writeSync(0);
@@ -145,7 +127,6 @@ FC3.watch(function (err, value) {
     flagArriba = false;
     console.log('FC2');
     IO.emit("messages", "nivel3");
-    serialPort.write("3\r\n");
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(1);
