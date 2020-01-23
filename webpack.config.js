@@ -26,8 +26,8 @@ module.exports = {
         exclude: /node_modules/,
         use:{loader:'vue-loader'}
       },
-      {test: /\.scss?$/, rules: ['style-loader', 'css-loader', 'sass-loader']},
-      {test: /\.css?$/, rules: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.scss?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.css?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
       { test: /tether\.js$/, loader: "expose?Tether" },
       {test: /bootstrap\/js\/src\/.*\.js$/}
     ],
