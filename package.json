@@ -16,7 +16,8 @@
     "cors": "^2.8.5",
     "express": "^4.16.2",
     "saslprep": "^1.0.3",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "onoff":"^5.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
