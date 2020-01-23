@@ -1,7 +1,7 @@
 
 var webpack = require('webpack')
 const path = require('path')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 
 module.exports = {
   entry:'./scr/app_vue/main.js',
@@ -10,26 +10,26 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      // this will apply to both plain `.js` files
-      // AND `<script>` blocks in `.vue` files
+    loaders: [
+
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        include: [
+                    path.resolve(__dirname, "src"),
+                    
+                ],
+        loader: 'babel-loader',
+        exclude: /node_modules/
       },
-      // this will apply to both plain `.css` files
-      // AND `<style>` blocks in `.vue` files
       {
-        test: /\.css$/,
-        use: [
-          'vue-style-loader',
-          'css-loader'
-        ]
-      }
+        test: /\.vue$/,
+        exclude: /node_modules/,
+        use:{loader:'vue-loader'}
+      },
+      {test: /\.scss?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      {test: /\.css?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
+      { test: /tether\.js$/, loader: "expose?Tether" },
+      {test: /bootstrap\/js\/src\/.*\.js$/}
     ],
 
 
@@ -38,7 +38,6 @@ module.exports = {
   },
 
   plugins: [
-    new VueLoaderPlugin()
  
      // ...
    /*
