@@ -1,7 +1,7 @@
 
 var webpack = require('webpack')
 const path = require('path')
-
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
   entry:'./scr/app_vue/main.js',
@@ -11,25 +11,25 @@ module.exports = {
   },
   module: {
     rules: [
-
-      {
-        test: /\.js$/,
-        include: [
-                    path.resolve(__dirname, "src"),
-                    
-                ],
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      },
       {
         test: /\.vue$/,
-        exclude: /node_modules/,
-        use:{loader:'vue-loader'}
+        loader: 'vue-loader'
       },
-      {test: /\.scss?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
-      {test: /\.css?$/, loaders: ['style-loader', 'css-loader', 'sass-loader']},
-      { test: /tether\.js$/, loader: "expose?Tether" },
-      {test: /bootstrap\/js\/src\/.*\.js$/}
+      // this will apply to both plain `.js` files
+      // AND `<script>` blocks in `.vue` files
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      },
+      // this will apply to both plain `.css` files
+      // AND `<style>` blocks in `.vue` files
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      }
     ],
 
 
@@ -38,6 +38,7 @@ module.exports = {
   },
 
   plugins: [
+    new VueLoaderPlugin()
  
      // ...
    /*
