@@ -19,7 +19,7 @@ export default {
         video:true,
         inicio:false
       },
-      socket:io.connect('http://192.168.1.78:3333', { 'forceNew': true }),
+      socket:"",
       rutaVideo:"/videos/v1_atocha_sub_low.mp4"
     };
   },
@@ -29,8 +29,8 @@ export default {
   },
   mounted: function() {
     
-    console.log(window.location.host);
     
+    this.socket=io.connect('http://'+window.location.host, { 'forceNew': true })
 this.socket.on('messages', function(data) {
 
       console.log(data);
