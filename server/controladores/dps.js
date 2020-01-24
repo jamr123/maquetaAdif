@@ -1,11 +1,12 @@
 var Gpio = require('onoff').Gpio;
+var ip = require('ip');
 var LED1 = new Gpio(23, 'out');
 var LED2 = new Gpio(24, 'out');
 var LED3 = new Gpio(25, 'out');
 
 var stepPin = new Gpio(16, 'out');
 var dirPin = new Gpio(20, 'out');
-var EnPin = new Gpio(22, 'out');
+var EnPin = new Gpio(21, 'out');
 
 
 var Arriba = new Gpio(5, 'in', 'both');
@@ -66,6 +67,7 @@ FC0.watch(function (err, value) {
     flagAction=false;
     console.log('FC0');
     IO.emit("messages", "nivel0");
+    EnPin.writeSync(1);
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
@@ -81,6 +83,7 @@ FC1.watch(function (err, value) {
     clearInterval(pulso);
     flagAction=false;
     console.log('FC1');
+    EnPin.writeSync(1);
     IO.emit("messages", "nivel1");
     LED1.writeSync(1);
     LED2.writeSync(0);
@@ -96,6 +99,7 @@ FC2.watch(function (err, value) {
   if (value == 0 && puntero==2 && flagAction==true) {
     clearInterval(pulso);
     flagAction=false;
+    EnPin.writeSync(1);
     console.log('FC2');
     IO.emit("messages", "nivel2");
     LED1.writeSync(0);
@@ -112,6 +116,7 @@ FC3.watch(function (err, value) {
   if (value == 0 && puntero==3 && flagAction==true) {
     clearInterval(pulso);
     flagAction=false;
+    EnPin.writeSync(1);
     console.log('FC2');
     IO.emit("messages", "nivel3");
     LED1.writeSync(0);
@@ -140,6 +145,7 @@ function setArriba(){
   dirPin.writeSync(1);
   console.log('buscando Arriba');
   IO.emit("messages", "buscando Arriba");
+  EnPin.writeSync(0);
   pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
 }
 
@@ -148,13 +154,17 @@ function setAbajo(){
     puntero=0;
     dirPin.writeSync(0);
     console.log('buscando Abajo');
-    IO.emit("messages", "buscando Abajo");
+    IO.emit("messages", "buscando Abajo"); 
+    EnPin.writeSync(0);
     pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
 }
 
 function dpslog(req, res) {
 
-  
+  res.status(200).send({
+    estado: "OK",
+    ip:ip.address()
+});
 
 }
 
