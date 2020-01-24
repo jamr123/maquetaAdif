@@ -5,7 +5,7 @@ const api = express.Router();
 const dps=require('../controladores/dps');
 ///////rutas--login//////
 
-api.post('/dps', dps.dpslog);
+api.get('/dps', dps.dpslog);
 
 module.exports = api
 
