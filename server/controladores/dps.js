@@ -146,7 +146,7 @@ function setArriba(){
 function setAbajo(){
   flagAction=true;
     puntero=0;
-    dirPin.writeSync(1);
+    dirPin.writeSync(0);
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
     pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
