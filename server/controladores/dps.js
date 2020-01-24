@@ -32,7 +32,7 @@ function initAbajo() {
   dirPin.writeSync(0);
   console.log('buscando Abajo');
   IO.emit("messages", "buscando Abajo");
-  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
+  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),0.5);
 
 }
 
@@ -48,7 +48,7 @@ Arriba.watch(function (err, value) {
     dirPin.writeSync(1);
     console.log('buscando Arriba');
     IO.emit("messages", "buscando Arriba");
-    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
+    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),0.5);
   }
 });
 
@@ -64,7 +64,7 @@ Abajo.watch(function (err, value) {
     dirPin.writeSync(0);
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
-    pulso = setInterval(stepPin.writeSync(stepPin.readSync() ^ 1), 1);
+    pulso = setInterval(stepPin.writeSync(stepPin.readSync() ^ 1), 0.5);
   }
 });
 
@@ -90,7 +90,7 @@ FC1.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==0 && flagAction==true) {
+  if (value == 0 && puntero==1 && flagAction==true) {
     clearInterval(pulso);
     flagAction=false;
     console.log('FC1');
@@ -106,7 +106,7 @@ FC2.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==0 && flagAction==true) {
+  if (value == 0 && puntero==2 && flagAction==true) {
     clearInterval(pulso);
     flagAction=false;
     console.log('FC2');
@@ -122,7 +122,7 @@ FC3.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==0 && flagAction==true) {
+  if (value == 0 && puntero==3 && flagAction==true) {
     clearInterval(pulso);
     flagAction=false;
     console.log('FC2');
