@@ -29,6 +29,7 @@ export default {
   },
   mounted: function() {
     
+    console.log(window.location.host);
     
 this.socket.on('messages', function(data) {
 
