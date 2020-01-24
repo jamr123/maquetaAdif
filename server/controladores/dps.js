@@ -160,7 +160,9 @@ function setAbajo(){
 }
 
 function dpslog(req, res) {
-
+ 
+  console.log(req.query);
+  console.log("req init app");
   res.status(200).send({
     estado: "OK",
     ip:ip.address()
