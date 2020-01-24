@@ -1,42 +1,38 @@
-
 var Gpio = require('onoff').Gpio;
 var LED1 = new Gpio(23, 'out');
 var LED2 = new Gpio(24, 'out');
 var LED3 = new Gpio(25, 'out');
 
-var stepPin = new Gpio(17, 'out');
-var dirPin = new Gpio(27, 'out');
+var stepPin = new Gpio(16, 'out');
+var dirPin = new Gpio(20, 'out');
 var EnPin = new Gpio(22, 'out');
 
 
 var Arriba = new Gpio(5, 'in', 'both');
 var Abajo = new Gpio(6, 'in', 'both');
 var FC0 = new Gpio(12, 'in', 'both');
-var FC1 = new Gpio(26, 'in', 'both');
+var FC1 = new Gpio(13, 'in', 'both');
 var FC2 = new Gpio(19, 'in', 'both');
-var FC3 = new Gpio(13, 'in', 'both');
+var FC3 = new Gpio(26, 'in', 'both');
 
+var pulso;
 var IO;
 
-var flagAction = false;
-var flagAbajo = false;
-var flagArriba = false;
+var puntero=0;
+var flagAction=false;
 
 
-function socketSend(io) {
 
+function socketSend(io) { 
   IO = io;
-  EnPin.writeSync(0);
-
 }
 
 function initAbajo() {
-
-  flagAction = true;
-  flagAbajo = true;
+  flagAction=true;
   dirPin.writeSync(0);
-  console.error('buscando Abajo');
+  console.log('buscando Abajo');
   IO.emit("messages", "buscando Abajo");
+  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
 
 }
 
@@ -46,11 +42,13 @@ Arriba.watch(function (err, value) {
     return;
   }
 
-  if (value == 0 && flagAction == false) {
-    flagAction = true;
-    flagArriba = true;
+  if (value == 0 && flagAction==false ) {
+    flagAction=true;
+    puntero=puntero +1;
+    dirPin.writeSync(1);
     console.log('buscando Arriba');
     IO.emit("messages", "buscando Arriba");
+    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
   }
 });
 
@@ -60,11 +58,13 @@ Abajo.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && flagAction == false) {
-    flagAction = true;
-    flagAbajo = true;
+  if (value == 0 && flagAction==false ) {
+    puntero==0;
+    flagAction=true;
+    dirPin.writeSync(0);
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
+    pulso = setInterval(stepPin.writeSync(stepPin.readSync() ^ 1), 1);
   }
 });
 
@@ -74,9 +74,9 @@ FC0.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && flagAction == true && flagArriba == false) {
-    flagAction = false;
-    flagAbajo = false;
+  if (value == 0 && puntero==0 && flagAction==true) {
+    clearInterval(pulso);
+    flagAction=false;
     console.log('FC0');
     IO.emit("messages", "nivel0");
     LED1.writeSync(0);
@@ -90,9 +90,9 @@ FC1.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && flagAction == true && flagAbajo == false) {
-    flagAction = false;
-    flagArriba = false;
+  if (value == 0 && puntero==0 && flagAction==true) {
+    clearInterval(pulso);
+    flagAction=false;
     console.log('FC1');
     IO.emit("messages", "nivel1");
     LED1.writeSync(1);
@@ -106,9 +106,9 @@ FC2.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && flagAction == true && flagAbajo == false) {
-    flagAction = false;
-    flagArriba = false;
+  if (value == 0 && puntero==0 && flagAction==true) {
+    clearInterval(pulso);
+    flagAction=false;
     console.log('FC2');
     IO.emit("messages", "nivel2");
     LED1.writeSync(0);
@@ -122,9 +122,9 @@ FC3.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && flagAction == true && flagAbajo == false) {
-    flagAction = false;
-    flagArriba = false;
+  if (value == 0 && puntero==0 && flagAction==true) {
+    clearInterval(pulso);
+    flagAction=false;
     console.log('FC2');
     IO.emit("messages", "nivel3");
     LED1.writeSync(0);
@@ -132,10 +132,6 @@ FC3.watch(function (err, value) {
     LED3.writeSync(1);
   }
 });
-
-
-
-
 
 process.on('SIGINT', _ => {
   LED1.unexport();
@@ -150,18 +146,11 @@ process.on('SIGINT', _ => {
   FC3.unexport();
 });
 
-
-
 function dpslog(req, res) {
 
-
-  IO.emit("messages", {
-    value: req.body.dato
-  });
-
+  
 
 }
-
 
 
 module.exports = {
