@@ -28,8 +28,7 @@ function socketSend(io) {
 }
 
 function initAbajo() {
-  
-
+  setAbajo();
 }
 
 Arriba.watch(function (err, value) {
