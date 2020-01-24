@@ -28,11 +28,7 @@ function socketSend(io) {
 }
 
 function initAbajo() {
-  flagAction=true;
-  dirPin.writeSync(0);
-  console.log('buscando Abajo');
-  IO.emit("messages", "buscando Abajo");
-  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),0.5);
+  
 
 }
 
@@ -43,30 +39,22 @@ Arriba.watch(function (err, value) {
   }
 
   if (value == 0 && flagAction==false ) {
-    flagAction=true;
-    puntero=puntero +1;
-    dirPin.writeSync(1);
-    console.log('buscando Arriba');
-    IO.emit("messages", "buscando Arriba");
-    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),0.5);
+   setArriba();
   }
 });
-
 
 Abajo.watch(function (err, value) {
   if (err) {
     console.error('There was an error', err);
     return;
   }
+
   if (value == 0 && flagAction==false ) {
-    puntero==0;
-    flagAction=true;
-    dirPin.writeSync(0);
-    console.log('buscando Abajo');
-    IO.emit("messages", "buscando Abajo");
-    pulso = setInterval(stepPin.writeSync(stepPin.readSync() ^ 1), 0.5);
+  setAbajo();
   }
 });
+
+
 
 
 FC0.watch(function (err, value) {
@@ -145,6 +133,25 @@ process.on('SIGINT', _ => {
   FC2.unexport();
   FC3.unexport();
 });
+
+
+function setArriba(){
+  flagAction=true;
+  puntero=puntero +1;
+  dirPin.writeSync(1);
+  console.log('buscando Arriba');
+  IO.emit("messages", "buscando Arriba");
+  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
+}
+
+function setAbajo(){
+  flagAction=true;
+    puntero=0;
+    dirPin.writeSync(1);
+    console.log('buscando Arriba');
+    IO.emit("messages", "buscando Arriba");
+    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
+}
 
 function dpslog(req, res) {
 
