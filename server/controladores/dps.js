@@ -38,7 +38,7 @@ Arriba.watch(function (err, value) {
     return;
   }
 
-  if (value == 0 && flagAction==false ) {
+  if (value == 0 && flagAction==false && puntero < 4 ) {
    setArriba();
   }
 });
