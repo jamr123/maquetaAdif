@@ -152,6 +152,7 @@ function setArriba() {
 }
 
 function setAbajo() {
+ if(puntero > 0){
   flagAction = true;
   puntero = 0;
   dirPin.writeSync(0);
@@ -159,6 +160,7 @@ function setAbajo() {
   IO.emit("messages", "buscando Abajo");
   EnPin.writeSync(0);
   pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1), 1);
+ }
 }
 
 function dpslog(req, res) {
