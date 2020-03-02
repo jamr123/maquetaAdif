@@ -19,12 +19,12 @@ var FC3 = new Gpio(26, 'in', 'both');
 var pulso;
 var IO;
 
-var puntero=0;
-var flagAction=false;
+var puntero = 0;
+var flagAction = false;
 
 
 
-function socketSend(io) { 
+function socketSend(io) {
   IO = io;
 }
 
@@ -38,8 +38,8 @@ Arriba.watch(function (err, value) {
     return;
   }
 
-  if (value == 0 && flagAction==false && puntero <= 3 ) {
-   setArriba();
+  if (value == 0 && flagAction == false) {
+    setArriba();
   }
 });
 
@@ -49,8 +49,8 @@ Abajo.watch(function (err, value) {
     return;
   }
 
-  if (value == 0 && flagAction==false ) {
-  setAbajo();
+  if (value == 0 && flagAction == false) {
+    setAbajo();
   }
 });
 
@@ -62,9 +62,9 @@ FC0.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==0 && flagAction==true) {
+  if (value == 0 && puntero == 0 && flagAction == true) {
     clearInterval(pulso);
-    flagAction=false;
+    flagAction = false;
     console.log('FC0');
     IO.emit("messages", "nivel0");
     EnPin.writeSync(1);
@@ -79,9 +79,9 @@ FC1.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==1 && flagAction==true) {
+  if (value == 0 && puntero == 1 && flagAction == true) {
     clearInterval(pulso);
-    flagAction=false;
+    flagAction = false;
     console.log('FC1');
     EnPin.writeSync(1);
     IO.emit("messages", "nivel1");
@@ -96,9 +96,9 @@ FC2.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==2 && flagAction==true) {
+  if (value == 0 && puntero == 2 && flagAction == true) {
     clearInterval(pulso);
-    flagAction=false;
+    flagAction = false;
     EnPin.writeSync(1);
     console.log('FC2');
     IO.emit("messages", "nivel2");
@@ -113,9 +113,9 @@ FC3.watch(function (err, value) {
     console.error('There was an error', err);
     return;
   }
-  if (value == 0 && puntero==3 && flagAction==true) {
+  if (value == 0 && puntero == 3 && flagAction == true) {
     clearInterval(pulso);
-    flagAction=false;
+    flagAction = false;
     EnPin.writeSync(1);
     console.log('FC3');
     IO.emit("messages", "nivel3");
@@ -139,34 +139,36 @@ process.on('SIGINT', _ => {
 });
 
 
-function setArriba(){
-  flagAction=true;
-  puntero=puntero +1;
-  dirPin.writeSync(1);
-  console.log('buscando Arriba');
-  IO.emit("messages", "buscando Arriba");
-  EnPin.writeSync(0);
-  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
+function setArriba() {
+  if (puntero < 3) {
+    flagAction = true;
+    puntero = puntero + 1;
+    dirPin.writeSync(1);
+    console.log('buscando Arriba');
+    IO.emit("messages", "buscando Arriba");
+    EnPin.writeSync(0);
+    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1), 1);
+  }
 }
 
-function setAbajo(){
-  flagAction=true;
-    puntero=0;
-    dirPin.writeSync(0);
-    console.log('buscando Abajo');
-    IO.emit("messages", "buscando Abajo"); 
-    EnPin.writeSync(0);
-    pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1),1);
+function setAbajo() {
+  flagAction = true;
+  puntero = 0;
+  dirPin.writeSync(0);
+  console.log('buscando Abajo');
+  IO.emit("messages", "buscando Abajo");
+  EnPin.writeSync(0);
+  pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1), 1);
 }
 
 function dpslog(req, res) {
- 
+
   console.log(req.query);
   console.log("req init app");
   res.status(200).send({
     estado: "OK",
-    ip:ip.address()
-});
+    ip: ip.address()
+  });
 
 }
 
