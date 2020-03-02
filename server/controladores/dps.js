@@ -117,7 +117,7 @@ FC3.watch(function (err, value) {
     clearInterval(pulso);
     flagAction=false;
     EnPin.writeSync(1);
-    console.log('FC2');
+    console.log('FC3');
     IO.emit("messages", "nivel3");
     LED1.writeSync(0);
     LED2.writeSync(0);
