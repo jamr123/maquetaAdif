@@ -19,7 +19,7 @@ var FC3 = new Gpio(26, 'in', 'both');
 var pulso;
 var IO;
 
-var puntero = 0;
+var puntero = 1;
 var flagAction = false;
 
 
