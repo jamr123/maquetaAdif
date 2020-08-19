@@ -33,6 +33,16 @@ var FC01P=0;
 var FC02P=0;
 var FC03P=0;
 
+var FC1P=0;
+var FC2P=0;
+var FC3P=0;
+
+
+var btnA=1;
+var btnB=1;
+
+var flagdir=0;
+
 function dpslog(req, res) {
 
     console.log(req.query);
@@ -87,10 +97,94 @@ function leds(led1,led2,led3){
 function eventStopAll(){
  if(FC0P==1 && FC01P==1  && FC02P==1 && FC03P==1 ){
     console.log('Paro todos los motores');
+    btnA=0;
+    btnB=1;
  }
 
 }
 
+function stop(){
+    clearInterval(pulso);
+    EnPin.writeSync(1);
+    EnPin1.writeSync(1);
+    EnPin2.writeSync(1);
+    EnPin3.writeSync(1);
+}
+
+
+Arriba.watch(function (err, value) {
+    if (err) {
+      console.error('There was an error', err);
+      return;
+    }
+  
+    if (value == 0 && flagdir == 1 && btnA==0) {
+      bntA=1;
+      flagdir=0;
+      setArriba();
+    }
+  });
+  
+  Abajo.watch(function (err, value) {
+    if (err) {
+      console.error('There was an error', err);
+      return;
+    }
+  
+    if (value == 0 && flagdir == 0 && btnB==0) {
+      flagdir=1;
+      setAbajo();
+    }
+  });
+
+
+  FC1.watch(function (err, value) {
+    if (err) {
+      console.error('There was an error', err);
+      return;
+    }
+    if (value == 0 && FC1P==0 && flagdir == 1) {
+      FC1P=1;
+      bntA=0;
+      btnB=0;
+      console.log('FC1');
+      IO.emit("messages", "nivel1");
+      stop();
+      leds(1,0,0);
+    }
+  });
+
+  FC2.watch(function (err, value) {
+    if (err) {
+      console.error('There was an error', err);
+      return;
+    }
+    if (value == 0 && FC1P==0 && flagdir == 1) {
+      FC1P=1;
+      bntA=0;
+      btnB=0;
+      console.log('FC2');
+      IO.emit("messages", "nivel1");
+      stop();
+      leds(0,1,0);
+    }
+  });
+
+  FC3.watch(function (err, value) {
+    if (err) {
+      console.error('There was an error', err);
+      return;
+    }
+    if (value == 0 && FC1P==0 && flagdir == 1) {
+      FC1P=1;
+      bntA=0;
+      btnB=0;
+      console.log('FC3');
+      IO.emit("messages", "nivel1");
+      stop();
+      leds(0,0,1);
+    }
+  });
 
 
 FC0.watch(function (err, value) {
