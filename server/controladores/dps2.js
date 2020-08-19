@@ -120,7 +120,7 @@ Arriba.watch(function (err, value) {
     }
 
     if (value == 0 && flagdir == 1 && btnA == 0) {
-        bntA = 1;
+        btnA = 1;
         setArriba();
     }
 });
@@ -145,7 +145,7 @@ FC1.watch(function (err, value) {
     }
     if (value == 0 && FC1P == 0 && flagdir == 1) {
         FC1P = 1;
-        bntA = 0;
+        btnA = 0;
         btnB = 0;
         FC0P = 0;
         FC01P = 0;
@@ -166,7 +166,7 @@ FC2.watch(function (err, value) {
     }
     if (value == 0 && FC2P == 0 && flagdir == 1) {
         FC1P = 1;
-        bntA = 0;
+        btnA = 0;
         btnB = 0;
         console.log('FC2');
         IO.emit("messages", "nivel1");
@@ -182,7 +182,7 @@ FC3.watch(function (err, value) {
     }
     if (value == 0 && FC3P == 0 && flagdir == 1) {
         FC1P = 1;
-        bntA = 0;
+        btnA = 0;
         btnB = 0;
         console.log('FC3');
         IO.emit("messages", "nivel1");
