@@ -99,6 +99,7 @@ function eventStopAll(){
     console.log('Paro todos los motores');
     btnA=0;
     btnB=1;
+    flagdir=1;
  }
 
 }
@@ -132,7 +133,6 @@ Arriba.watch(function (err, value) {
     }
   
     if (value == 0 && flagdir == 0 && btnB==0) {
-      flagdir=1;
       setAbajo();
     }
   });
