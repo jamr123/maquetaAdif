@@ -61,15 +61,15 @@ function initAbajo() {
 }
 
 var estados={
-FC0P = btnfc0,
-FC01P = btnfc01,
-FC02P = btnfc02,
-FC03P = btnfc03,
-FC1P = btnfc1,
-FC2P = btnfc2,
-FC3P = btnfc3,
-btnA = btna,
-btnB = btnb
+FC0P = 0,
+FC01P = 0,
+FC02P = 0,
+FC03P = 0,
+FC1P = 0,
+FC2P = 0,
+FC3P = 0,
+btnA = 0,
+btnB = 0
 }
 
 
