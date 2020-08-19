@@ -4,8 +4,8 @@ const server = require('http').Server(app);
 const config = require("./config");
 const SocketIo = require('socket.io');
 const io = SocketIo.listen(server);
-var socketConsumer = require('./controladores/dps').socketSend(io);
-var inicio=require('./controladores/dps');
+var socketConsumer = require('./controladores/dps2').socketSend(io);
+var inicio=require('./controladores/dps2');
 
 
 server.listen(config.PORT, () => {
