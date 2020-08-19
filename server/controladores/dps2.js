@@ -90,7 +90,7 @@ function setArriba() {
 function leds(led1, led2, led3) {
     LED1.writeSync(led1);
     LED2.writeSync(led2);
-    LED3.writeSync(lede3);
+    LED3.writeSync(led3);
 }
 
 function eventStopAll() {
