@@ -243,9 +243,7 @@ if(puntero1==1 && puntero2==1 && puntero3==1 && puntero4==1){
 
 
 function setArriba() {
-  if (puntero < 3 && close==1) {
-    
-    puntero2 = 0;
+  if (puntero < 3) {
     flagAction = true;
     puntero = puntero + 1;
     dirPin.writeSync(1);
