@@ -41,8 +41,6 @@ var FC3P = 0;
 var btnA = 1;
 var btnB = 1;
 
-var flagdir = 0;
-
 function dpslog(req, res) {
 
     console.log(req.query);
@@ -62,9 +60,32 @@ function initAbajo() {
     setAbajo();
 }
 
+var estados={
+FC0P = btnfc0,
+FC01P = btnfc01,
+FC02P = btnfc02,
+FC03P = btnfc03,
+FC1P = btnfc1,
+FC2P = btnfc2,
+FC3P = btnfc3,
+btnA = btna,
+btnB = btnb
+}
+
 
 function setAbajo() {
-    flagdir=0;
+    
+    estados={
+        FC0P = 0,
+        FC01P = 0,
+        FC02P = 0,
+        FC03P = 0,
+        FC1P = 1,
+        FC2P = 1,
+        FC3P = 1,
+        btnA = 1,
+        btnB = 1
+        }
     dirPin.writeSync(1);
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
@@ -96,9 +117,7 @@ function leds(led1, led2, led3) {
 function eventStopAll() {
     if (FC0P == 1 && FC01P == 1 && FC02P == 1 && FC03P == 1) {
         console.log('Paro todos los motores');
-        btnA = 0;
-        btnB = 1;
-        flagdir = 1;
+        
     }
 
 }
@@ -119,8 +138,7 @@ Arriba.watch(function (err, value) {
         return;
     }
 
-    if (value == 0 && flagdir == 1 && btnA == 0) {
-        btnA = 1;
+    if (value == 0 && btnA == 0) {
         setArriba();
     }
 });
@@ -132,7 +150,7 @@ Abajo.watch(function (err, value) {
         return;
     }
 
-    if (value == 0 && flagdir == 0 && btnB == 0) {
+    if (value == 0  && btnB == 0) {
         setAbajo();
     }
 });
@@ -143,14 +161,8 @@ FC1.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC1P == 0 && flagdir == 1) {
-        FC1P = 1;
-        btnA = 0;
-        btnB = 0;
-        FC0P = 0;
-        FC01P = 0;
-        FC02P = 0;
-        FC03P = 0
+    if (value == 0 && FC1P == 0 ) {
+
 
         console.log('FC1');
         IO.emit("messages", "nivel1");
@@ -164,10 +176,7 @@ FC2.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC2P == 0 && flagdir == 1) {
-        FC1P = 1;
-        btnA = 0;
-        btnB = 0;
+    if (value == 0 && FC2P == 0 ) {
         console.log('FC2');
         IO.emit("messages", "nivel1");
         stop();
@@ -180,10 +189,7 @@ FC3.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC3P == 0 && flagdir == 1) {
-        FC1P = 1;
-        btnA = 0;
-        btnB = 0;
+    if (value == 0 && FC3P == 0 ) {
         console.log('FC3');
         IO.emit("messages", "nivel1");
         stop();
@@ -192,13 +198,17 @@ FC3.watch(function (err, value) {
 });
 
 
+
+
+
+
 FC0.watch(function (err, value) {
     if (err) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC0P == 0) {
-        FC0P = 1;
+    if (value == 0 && estados.FC0P == 0) {
+        estados.FC0P=1;
         console.log('FC0');
         console.log('stop motor1');
         IO.emit("messages", "nivel0");
@@ -212,8 +222,8 @@ FC01.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC01P == 0) {
-        FC01P = 1;
+    if (value == 0 && estados.FC01P == 0) {
+        estados.FC01P=1;
         console.log('FC01');
         console.log('stop motor2');
         IO.emit("messages", "nivel0");
@@ -227,8 +237,8 @@ FC02.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC02P == 0) {
-        FC02P = 1;
+    if (value == 0 && estados.FC02P == 0) {
+        estados.FC02P=1;
         console.log('FC02');
         console.log('stop motor3');
         IO.emit("messages", "nivel0");
@@ -242,8 +252,8 @@ FC03.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC03P == 0) {
-        FC03P = 1;
+    if (value == 0 && estados.FC03P == 0) {
+        estados.FC03P=1;
         console.log('FC03');
         console.log('stop motor4');
         IO.emit("messages", "nivel0");
