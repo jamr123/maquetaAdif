@@ -30,7 +30,11 @@ var IO;
 
 var puntero = 1;
 var flagAction = false;
+var puntero1=0;
 var puntero2=0;
+var puntero3=0;
+var puntero4=0;
+var close=0;
 
 
 
@@ -81,16 +85,10 @@ FC0.watch(function (err, value) {
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
-    puntero2 = puntero2 +1;
-    console.log(puntero2)
+    puntero1=1;
   }
    
-  if(puntero2==4){
-    
-    flagAction = false;
-    clearInterval(pulso);
-  }
-
+  
 });
 
 FC01.watch(function (err, value) {
@@ -106,14 +104,9 @@ FC01.watch(function (err, value) {
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
-    puntero2 = puntero2 +1;
-    console.log(puntero2)
+    puntero2=1;
   }
 
-  if(puntero2==4){
-    clearInterval(pulso);
-    flagAction = false;
-  }
 });
 
 FC02.watch(function (err, value) {
@@ -129,15 +122,11 @@ FC02.watch(function (err, value) {
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
-    puntero2 = puntero2 +1;
-    console.log(puntero2)
+    puntero3=1;
     
   }
 
-  if(puntero2==4){
-    clearInterval(pulso);
-    flagAction = false;
-  }
+  
 
 });
 
@@ -155,14 +144,10 @@ FC03.watch(function (err, value) {
     LED1.writeSync(0);
     LED2.writeSync(0);
     LED3.writeSync(0);
-    puntero2 = puntero2 +1;
-    console.log(puntero2)
+    puntero4=0;
   }
 
-  if(puntero2==4){
-    clearInterval(pulso);
-    flagAction = false;
-  }
+ 
 
 });
 
@@ -246,9 +231,19 @@ process.on('SIGINT', _ => {
   FC3.unexport();
 });
 
+if(puntero1==1 && puntero2==1 && puntero3==1 && puntero4==1){
+  puntero1=0;
+  puntero2=0;
+  puntero3=0;
+  puntero4=0;
+  flagAction = false;
+  clearInterval(pulso);
+  close=1;
+}
+
 
 function setArriba() {
-  if (puntero < 3 && puntero2 == 4) {
+  if (puntero < 3 && close==1) {
     
     puntero2 = 0;
     flagAction = true;
