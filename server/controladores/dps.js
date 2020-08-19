@@ -74,7 +74,7 @@ FC0.watch(function (err, value) {
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
    
-    //flagAction = false;
+  
     console.log('FC0');
     IO.emit("messages", "nivel0");
     EnPin.writeSync(1);
@@ -100,9 +100,8 @@ FC01.watch(function (err, value) {
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
     
-    flagAction = false;
     console.log('FC01');
-    //IO.emit("messages", "nivel0");
+    IO.emit("messages", "nivel0");
     EnPin1.writeSync(1);
     LED1.writeSync(0);
     LED2.writeSync(0);
@@ -124,9 +123,8 @@ FC02.watch(function (err, value) {
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
    
-    flagAction = false;
     console.log('FC02');
-    //IO.emit("messages", "nivel0");
+    IO.emit("messages", "nivel0");
     EnPin2.writeSync(1);
     LED1.writeSync(0);
     LED2.writeSync(0);
@@ -150,9 +148,9 @@ FC03.watch(function (err, value) {
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
    
-    flagAction = false;
+    
     console.log('FC03');
-    //IO.emit("messages", "nivel0");
+    IO.emit("messages", "nivel0");
     EnPin3.writeSync(1);
     LED1.writeSync(0);
     LED2.writeSync(0);
