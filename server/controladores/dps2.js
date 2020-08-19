@@ -155,7 +155,6 @@ function stop() {
 
 
 Arriba.watch(function (err, value) {
-    console.log(`pres btn arriba ${value}`);
     if (err) {
         console.error('There was an error', err);
         return;
@@ -167,7 +166,6 @@ Arriba.watch(function (err, value) {
 });
 
 Abajo.watch(function (err, value) {
-    console.log(`pres btn abajo ${value}`);
     if (err) {
         console.error('There was an error', err);
         return;
