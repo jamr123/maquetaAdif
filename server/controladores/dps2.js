@@ -28,31 +28,31 @@ var FC3 = new Gpio(26, 'in', 'both');
 var pulso;
 var IO;
 
-var FC0P=0;
-var FC01P=0;
-var FC02P=0;
-var FC03P=0;
+var FC0P = 0;
+var FC01P = 0;
+var FC02P = 0;
+var FC03P = 0;
 
-var FC1P=0;
-var FC2P=0;
-var FC3P=0;
+var FC1P = 0;
+var FC2P = 0;
+var FC3P = 0;
 
 
-var btnA=1;
-var btnB=1;
+var btnA = 1;
+var btnB = 1;
 
-var flagdir=0;
+var flagdir = 0;
 
 function dpslog(req, res) {
 
     console.log(req.query);
     console.log("req init app");
     res.status(200).send({
-      estado: "OK",
-      ip: ip.address()
+        estado: "OK",
+        ip: ip.address()
     });
-  
-  }
+
+}
 
 function socketSend(io) {
     IO = io;
@@ -64,7 +64,7 @@ function initAbajo() {
 
 
 function setAbajo() {
-
+    flagdir=0;
     dirPin.writeSync(1);
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
@@ -77,8 +77,7 @@ function setAbajo() {
 }
 
 function setArriba() {
-
-    dirPin.writeSync(0); 
+    dirPin.writeSync(0);
     console.log('buscando Arriba');
     IO.emit("messages", "buscando Arriba");
     EnPin.writeSync(0);
@@ -88,23 +87,23 @@ function setArriba() {
     pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1), 1);
 }
 
-function leds(led1,led2,led3){
+function leds(led1, led2, led3) {
     LED1.writeSync(led1);
     LED2.writeSync(led2);
     LED3.writeSync(lede3);
 }
 
-function eventStopAll(){
- if(FC0P==1 && FC01P==1  && FC02P==1 && FC03P==1 ){
-    console.log('Paro todos los motores');
-    btnA=0;
-    btnB=1;
-    flagdir=1;
- }
+function eventStopAll() {
+    if (FC0P == 1 && FC01P == 1 && FC02P == 1 && FC03P == 1) {
+        console.log('Paro todos los motores');
+        btnA = 0;
+        btnB = 1;
+        flagdir = 1;
+    }
 
 }
 
-function stop(){
+function stop() {
     clearInterval(pulso);
     EnPin.writeSync(1);
     EnPin1.writeSync(1);
@@ -114,140 +113,146 @@ function stop(){
 
 
 Arriba.watch(function (err, value) {
+    console.log(`pres btn arriba ${value}`);
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-  
-    if (value == 0 && flagdir == 1 && btnA==0) {
-      bntA=1;
-      flagdir=0;
-      setArriba();
+
+    if (value == 0 && flagdir == 1 && btnA == 0) {
+        bntA = 1;
+        setArriba();
     }
-  });
-  
-  Abajo.watch(function (err, value) {
+});
+
+Abajo.watch(function (err, value) {
+    console.log(`pres btn abajo ${value}`);
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-  
-    if (value == 0 && flagdir == 0 && btnB==0) {
-      setAbajo();
+
+    if (value == 0 && flagdir == 0 && btnB == 0) {
+        setAbajo();
     }
-  });
+});
 
 
-  FC1.watch(function (err, value) {
+FC1.watch(function (err, value) {
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-    if (value == 0 && FC1P==0 && flagdir == 1) {
-      FC1P=1;
-      bntA=0;
-      btnB=0;
-      console.log('FC1');
-      IO.emit("messages", "nivel1");
-      stop();
-      leds(1,0,0);
-    }
-  });
+    if (value == 0 && FC1P == 0 && flagdir == 1) {
+        FC1P = 1;
+        bntA = 0;
+        btnB = 0;
+        FC0P = 0;
+        FC01P = 0;
+        FC02P = 0;
+        FC03P = 0
 
-  FC2.watch(function (err, value) {
-    if (err) {
-      console.error('There was an error', err);
-      return;
+        console.log('FC1');
+        IO.emit("messages", "nivel1");
+        stop();
+        leds(1, 0, 0);
     }
-    if (value == 0 && FC1P==0 && flagdir == 1) {
-      FC1P=1;
-      bntA=0;
-      btnB=0;
-      console.log('FC2');
-      IO.emit("messages", "nivel1");
-      stop();
-      leds(0,1,0);
-    }
-  });
+});
 
-  FC3.watch(function (err, value) {
+FC2.watch(function (err, value) {
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-    if (value == 0 && FC1P==0 && flagdir == 1) {
-      FC1P=1;
-      bntA=0;
-      btnB=0;
-      console.log('FC3');
-      IO.emit("messages", "nivel1");
-      stop();
-      leds(0,0,1);
+    if (value == 0 && FC2P == 0 && flagdir == 1) {
+        FC1P = 1;
+        bntA = 0;
+        btnB = 0;
+        console.log('FC2');
+        IO.emit("messages", "nivel1");
+        stop();
+        leds(0, 1, 0);
     }
-  });
+});
+
+FC3.watch(function (err, value) {
+    if (err) {
+        console.error('There was an error', err);
+        return;
+    }
+    if (value == 0 && FC3P == 0 && flagdir == 1) {
+        FC1P = 1;
+        bntA = 0;
+        btnB = 0;
+        console.log('FC3');
+        IO.emit("messages", "nivel1");
+        stop();
+        leds(0, 0, 1);
+    }
+});
 
 
 FC0.watch(function (err, value) {
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-    if (value == 0 &&  FC0P==0) {
-      FC0P=1;
-      console.log('FC0');
-      console.log('stop motor1');
-      IO.emit("messages", "nivel0");
-      EnPin.writeSync(1);
-      eventStopAll();
-    }    
-  });
+    if (value == 0 && FC0P == 0) {
+        FC0P = 1;
+        console.log('FC0');
+        console.log('stop motor1');
+        IO.emit("messages", "nivel0");
+        EnPin.writeSync(1);
+        eventStopAll();
+    }
+});
 
-  FC01.watch(function (err, value) {
+FC01.watch(function (err, value) {
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-    if (value == 0 &&  FC01P==0 ) {
-        FC01P=1;
-      console.log('FC01');
-      console.log('stop motor2');
-      IO.emit("messages", "nivel0");
-      EnPin1.writeSync(1);
-      eventStopAll();
-    }    
-  });
+    if (value == 0 && FC01P == 0) {
+        FC01P = 1;
+        console.log('FC01');
+        console.log('stop motor2');
+        IO.emit("messages", "nivel0");
+        EnPin1.writeSync(1);
+        eventStopAll();
+    }
+});
 
-  FC02.watch(function (err, value) {
+FC02.watch(function (err, value) {
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-    if (value == 0 &&  FC02P==0 ) {
-      FC02P=1;
-      console.log('FC02');
-      console.log('stop motor3');
-      IO.emit("messages", "nivel0");
-      EnPin2.writeSync(1);
-      eventStopAll();
-    }    
-  });
+    if (value == 0 && FC02P == 0) {
+        FC02P = 1;
+        console.log('FC02');
+        console.log('stop motor3');
+        IO.emit("messages", "nivel0");
+        EnPin2.writeSync(1);
+        eventStopAll();
+    }
+});
 
-  FC03.watch(function (err, value) {
+FC03.watch(function (err, value) {
     if (err) {
-      console.error('There was an error', err);
-      return;
+        console.error('There was an error', err);
+        return;
     }
-    if (value == 0 &&  FC03P==0) {
-      FC03P=1;
-      console.log('FC03');
-      console.log('stop motor4');
-      IO.emit("messages", "nivel0");
-      EnPin3.writeSync(1);
-      eventStopAll();
-    }    
-  });
+    if (value == 0 && FC03P == 0) {
+        FC03P = 1;
+        console.log('FC03');
+        console.log('stop motor4');
+        IO.emit("messages", "nivel0");
+        EnPin3.writeSync(1);
+        eventStopAll();
+    }
+});
 
- 
+
 
 
 process.on('SIGINT', _ => {
