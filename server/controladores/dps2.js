@@ -56,8 +56,8 @@ function initAbajo() {
 function setAbajo() {
 
     dirPin.writeSync(1);
-    console.log('buscando Arriba');
-    IO.emit("messages", "buscando Arriba");
+    console.log('buscando Abajo');
+    IO.emit("messages", "buscando Abajo");
     EnPin.writeSync(0);
     EnPin1.writeSync(0);
     EnPin2.writeSync(0);
@@ -68,9 +68,9 @@ function setAbajo() {
 
 function setArriba() {
 
-    dirPin.writeSync(0);
-    console.log('buscando Abajo');
-    IO.emit("messages", "buscando Abajo");
+    dirPin.writeSync(0); 
+    console.log('buscando Arriba');
+    IO.emit("messages", "buscando Arriba");
     EnPin.writeSync(0);
     EnPin1.writeSync(0);
     EnPin2.writeSync(0);
@@ -97,6 +97,7 @@ FC0.watch(function (err, value) {
       return;
     }
     if (value == 0 &&  FC0P==0) {
+      FC0P=1;
       console.log('FC0');
       IO.emit("messages", "nivel0");
       EnPin.writeSync(1);
@@ -110,6 +111,7 @@ FC0.watch(function (err, value) {
       return;
     }
     if (value == 0 &&  FC01P==0 ) {
+        FC01P=1;
       console.log('FC01');
       IO.emit("messages", "nivel0");
       EnPin1.writeSync(1);
@@ -123,6 +125,7 @@ FC0.watch(function (err, value) {
       return;
     }
     if (value == 0 &&  FC02P==0 ) {
+      FC02P=1;
       console.log('FC02');
       IO.emit("messages", "nivel0");
       EnPin2.writeSync(1);
@@ -136,6 +139,7 @@ FC0.watch(function (err, value) {
       return;
     }
     if (value == 0 &&  FC03P==0) {
+      FC03P=1;
       console.log('FC03');
       IO.emit("messages", "nivel0");
       EnPin3.writeSync(1);
