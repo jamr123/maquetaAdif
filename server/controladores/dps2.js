@@ -61,30 +61,30 @@ function initAbajo() {
 }
 
 var estados={
-FC0P = 0,
-FC01P = 0,
-FC02P = 0,
-FC03P = 0,
-FC1P = 0,
-FC2P = 0,
-FC3P = 0,
-btnA = 0,
-btnB = 0
+FC0P : 0,
+FC01P :0,
+FC02P : 0,
+FC03P : 0,
+FC1P : 0,
+FC2P : 0,
+FC3P : 0,
+btnA : 0,
+btnB : 0
 }
 
 
 function setAbajo() {
     
     estados={
-        FC0P = 0,
-        FC01P = 0,
-        FC02P = 0,
-        FC03P = 0,
-        FC1P = 1,
-        FC2P = 1,
-        FC3P = 1,
-        btnA = 1,
-        btnB = 1
+        FC0P : 0,
+        FC01P : 0,
+        FC02P : 0,
+        FC03P : 0,
+        FC1P :1,
+        FC2P : 1,
+        FC3P : 1,
+        btnA : 1,
+        btnB : 1
         }
     dirPin.writeSync(1);
     console.log('buscando Abajo');
