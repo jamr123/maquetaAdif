@@ -28,18 +28,7 @@ var FC3 = new Gpio(26, 'in', 'both');
 var pulso;
 var IO;
 
-var FC0P = 0;
-var FC01P = 0;
-var FC02P = 0;
-var FC03P = 0;
-
-var FC1P = 0;
-var FC2P = 0;
-var FC3P = 0;
-
-
-var btnA = 1;
-var btnB = 1;
+var nivel=0;
 
 function dpslog(req, res) {
 
@@ -60,32 +49,32 @@ function initAbajo() {
     setAbajo();
 }
 
-var estados={
-FC0P : 0,
-FC01P :0,
-FC02P : 0,
-FC03P : 0,
-FC1P : 0,
-FC2P : 0,
-FC3P : 0,
-btnA : 0,
-btnB : 0
+var estados = {
+    FC0P: 0,
+    FC01P: 0,
+    FC02P: 0,
+    FC03P: 0,
+    FC1P: 0,
+    FC2P: 0,
+    FC3P: 0,
+    btnA: 0,
+    btnB: 0
 }
 
 
 function setAbajo() {
-    
-    estados={
-        FC0P : 0,
-        FC01P : 0,
-        FC02P : 0,
-        FC03P : 0,
-        FC1P :1,
-        FC2P : 1,
-        FC3P : 1,
-        btnA : 1,
-        btnB : 1
-        }
+
+    estados = {
+        FC0P: 0,
+        FC01P: 0,
+        FC02P: 0,
+        FC03P: 0,
+        FC1P: 1,
+        FC2P: 1,
+        FC3P: 1,
+        btnA: 1,
+        btnB: 1
+    }
     dirPin.writeSync(1);
     console.log('buscando Abajo');
     IO.emit("messages", "buscando Abajo");
@@ -98,6 +87,28 @@ function setAbajo() {
 }
 
 function setArriba() {
+    estados = {
+        FC0P: 1,
+        FC01P: 1,
+        FC02P: 1,
+        FC03P: 1,
+        FC1P: 1,
+        FC2P: 1,
+        FC3P: 1,
+        btnA: 1,
+        btnB: 1
+    }
+    
+    if(nivel=0){
+     estados.FC1P=0;
+    }
+    if(nivel=1){
+        estados.FC2P=0;
+       }
+       if(nivel=2){
+        estados.FC3P=0;
+       }
+
     dirPin.writeSync(0);
     console.log('buscando Arriba');
     IO.emit("messages", "buscando Arriba");
@@ -115,9 +126,21 @@ function leds(led1, led2, led3) {
 }
 
 function eventStopAll() {
-    if (FC0P == 1 && FC01P == 1 && FC02P == 1 && FC03P == 1) {
+    if (estados.FC0P == 1 && estados.FC01P == 1 && estados.FC02P == 1 && estados.FC03P == 1) {
         console.log('Paro todos los motores');
-        
+        nivel=0;
+        estados = {
+            FC0P: 1,
+            FC01P: 1,
+            FC02P: 1,
+            FC03P: 1,
+            FC1P: 1,
+            FC2P: 1,
+            FC3P: 1,
+            btnA: 0,
+            btnB: 1
+        }
+
     }
 
 }
@@ -138,7 +161,7 @@ Arriba.watch(function (err, value) {
         return;
     }
 
-    if (value == 0 && btnA == 0) {
+    if (value == 0 && estados.btnA == 0) {
         setArriba();
     }
 });
@@ -150,7 +173,7 @@ Abajo.watch(function (err, value) {
         return;
     }
 
-    if (value == 0  && btnB == 0) {
+    if (value == 0 && estados.btnB == 0) {
         setAbajo();
     }
 });
@@ -161,9 +184,19 @@ FC1.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC1P == 0 ) {
-
-
+    if (value == 0 && estados.FC1P == 0) {
+        nivel=1;
+        estados = {
+            FC0P: 1,
+            FC01P: 1,
+            FC02P: 1,
+            FC03P: 1,
+            FC1P: 1,
+            FC2P: 1,
+            FC3P: 1,
+            btnA: 0,
+            btnB: 0
+        }
         console.log('FC1');
         IO.emit("messages", "nivel1");
         stop();
@@ -176,7 +209,19 @@ FC2.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC2P == 0 ) {
+    if (value == 0 && estados.FC2P == 0) {
+        nivel=2;
+        estados = {
+            FC0P: 1,
+            FC01P: 1,
+            FC02P: 1,
+            FC03P: 1,
+            FC1P: 1,
+            FC2P: 1,
+            FC3P: 1,
+            btnA: 0,
+            btnB: 0
+        }
         console.log('FC2');
         IO.emit("messages", "nivel1");
         stop();
@@ -189,7 +234,18 @@ FC3.watch(function (err, value) {
         console.error('There was an error', err);
         return;
     }
-    if (value == 0 && FC3P == 0 ) {
+    if (value == 0 && estados.FC3P == 0) {
+        estados = {
+            FC0P: 1,
+            FC01P: 1,
+            FC02P: 1,
+            FC03P: 1,
+            FC1P: 1,
+            FC2P: 1,
+            FC3P: 1,
+            btnA: 1,
+            btnB: 0
+        }
         console.log('FC3');
         IO.emit("messages", "nivel1");
         stop();
@@ -208,7 +264,7 @@ FC0.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC0P == 0) {
-        estados.FC0P=1;
+        estados.FC0P = 1;
         console.log('FC0');
         console.log('stop motor1');
         IO.emit("messages", "nivel0");
@@ -223,7 +279,7 @@ FC01.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC01P == 0) {
-        estados.FC01P=1;
+        estados.FC01P = 1;
         console.log('FC01');
         console.log('stop motor2');
         IO.emit("messages", "nivel0");
@@ -238,7 +294,7 @@ FC02.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC02P == 0) {
-        estados.FC02P=1;
+        estados.FC02P = 1;
         console.log('FC02');
         console.log('stop motor3');
         IO.emit("messages", "nivel0");
@@ -253,7 +309,7 @@ FC03.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC03P == 0) {
-        estados.FC03P=1;
+        estados.FC03P = 1;
         console.log('FC03');
         console.log('stop motor4');
         IO.emit("messages", "nivel0");
