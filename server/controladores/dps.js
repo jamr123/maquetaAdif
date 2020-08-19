@@ -73,7 +73,7 @@ FC0.watch(function (err, value) {
     return;
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
-    clearInterval(pulso);
+   
     //flagAction = false;
     console.log('FC0');
     IO.emit("messages", "nivel0");
@@ -88,6 +88,7 @@ FC0.watch(function (err, value) {
   if(puntero2==4){
     puntero2 = 0;
     flagAction = false;
+    clearInterval(pulso);
   }
 
 });
@@ -98,7 +99,7 @@ FC01.watch(function (err, value) {
     return;
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
-    clearInterval(pulso);
+    
     flagAction = false;
     console.log('FC01');
     //IO.emit("messages", "nivel0");
@@ -111,6 +112,7 @@ FC01.watch(function (err, value) {
   }
 
   if(puntero2==4){
+    clearInterval(pulso);
     puntero2 = 0;
     flagAction = false;
   }
@@ -122,7 +124,7 @@ FC02.watch(function (err, value) {
     return;
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
-    clearInterval(pulso);
+   
     flagAction = false;
     console.log('FC02');
     //IO.emit("messages", "nivel0");
@@ -136,6 +138,7 @@ FC02.watch(function (err, value) {
   }
 
   if(puntero2==4){
+    clearInterval(pulso);
     puntero2 = 0;
     flagAction = false;
   }
@@ -148,7 +151,7 @@ FC03.watch(function (err, value) {
     return;
   }
   if (value == 0 && puntero == 0 && flagAction == true) {
-    clearInterval(pulso);
+   
     flagAction = false;
     console.log('FC03');
     //IO.emit("messages", "nivel0");
@@ -161,6 +164,7 @@ FC03.watch(function (err, value) {
   }
 
   if(puntero2==4){
+    clearInterval(pulso);
     puntero2 = 0;
     flagAction = false;
   }
