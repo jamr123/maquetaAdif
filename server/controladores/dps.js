@@ -86,7 +86,7 @@ FC0.watch(function (err, value) {
   }
    
   if(puntero2==4){
-    puntero2 = 0;
+    
     flagAction = false;
     clearInterval(pulso);
   }
@@ -113,7 +113,6 @@ FC01.watch(function (err, value) {
 
   if(puntero2==4){
     clearInterval(pulso);
-    puntero2 = 0;
     flagAction = false;
   }
 });
@@ -139,7 +138,6 @@ FC02.watch(function (err, value) {
 
   if(puntero2==4){
     clearInterval(pulso);
-    puntero2 = 0;
     flagAction = false;
   }
 
@@ -165,7 +163,6 @@ FC03.watch(function (err, value) {
 
   if(puntero2==4){
     clearInterval(pulso);
-    puntero2 = 0;
     flagAction = false;
   }
 
@@ -253,7 +250,9 @@ process.on('SIGINT', _ => {
 
 
 function setArriba() {
-  if (puntero < 3) {
+  if (puntero < 3 && puntero2 == 4) {
+    
+    puntero2 = 0;
     flagAction = true;
     puntero = puntero + 1;
     dirPin.writeSync(1);
