@@ -85,7 +85,9 @@ function leds(led1,led2,led3){
 }
 
 function eventStopAll(){
-
+ if(FC0P==1 && FC01P==1  && FC02P==1 && FC03P==1 ){
+    console.log('Paro todos los motores');
+ }
 
 }
 
@@ -99,6 +101,7 @@ FC0.watch(function (err, value) {
     if (value == 0 &&  FC0P==0) {
       FC0P=1;
       console.log('FC0');
+      console.log('stop motor1');
       IO.emit("messages", "nivel0");
       EnPin.writeSync(1);
       eventStopAll();
@@ -113,6 +116,7 @@ FC0.watch(function (err, value) {
     if (value == 0 &&  FC01P==0 ) {
         FC01P=1;
       console.log('FC01');
+      console.log('stop motor2');
       IO.emit("messages", "nivel0");
       EnPin1.writeSync(1);
       eventStopAll();
@@ -127,6 +131,7 @@ FC0.watch(function (err, value) {
     if (value == 0 &&  FC02P==0 ) {
       FC02P=1;
       console.log('FC02');
+      console.log('stop motor3');
       IO.emit("messages", "nivel0");
       EnPin2.writeSync(1);
       eventStopAll();
@@ -141,6 +146,7 @@ FC0.watch(function (err, value) {
     if (value == 0 &&  FC03P==0) {
       FC03P=1;
       console.log('FC03');
+      console.log('stop motor4');
       IO.emit("messages", "nivel0");
       EnPin3.writeSync(1);
       eventStopAll();
