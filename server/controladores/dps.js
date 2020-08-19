@@ -82,7 +82,7 @@ FC0.watch(function (err, value) {
     LED2.writeSync(0);
     LED3.writeSync(0);
     puntero2 = puntero2 +1;
-    print(puntero2)
+    console.log(puntero2)
   }
    
   if(puntero2==4){
@@ -107,7 +107,7 @@ FC01.watch(function (err, value) {
     LED2.writeSync(0);
     LED3.writeSync(0);
     puntero2 = puntero2 +1;
-    print(puntero2)
+    console.log(puntero2)
   }
 
   if(puntero2==4){
@@ -131,7 +131,8 @@ FC02.watch(function (err, value) {
     LED2.writeSync(0);
     LED3.writeSync(0);
     puntero2 = puntero2 +1;
-    print(puntero2)
+    console.log(puntero2)
+    
   }
 
   if(puntero2==4){
@@ -156,7 +157,7 @@ FC03.watch(function (err, value) {
     LED2.writeSync(0);
     LED3.writeSync(0);
     puntero2 = puntero2 +1;
-    print(puntero2)
+    console.log(puntero2)
   }
 
   if(puntero2==4){
