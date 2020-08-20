@@ -99,13 +99,13 @@ function setArriba() {
         btnB: 1
     }
     
-    if(nivel=0){
+    if(nivel==0){
      estados.FC1P=0;
     }
-    if(nivel=1){
+    if(nivel==1){
         estados.FC2P=0;
        }
-       if(nivel=2){
+       if(nivel==2){
         estados.FC3P=0;
        }
 
