@@ -178,6 +178,7 @@ Abajo.watch(function (err, value) {
 
 
 FC1.watch(function (err, value) {
+    console.log(`pres fc1 ${value}`);
     if (err) {
         console.error('There was an error', err);
         return;
