@@ -128,6 +128,7 @@ function leds(led1, led2, led3) {
 function eventStopAll() {
     if (estados.FC0P == 1 && estados.FC01P == 1 && estados.FC02P == 1 && estados.FC03P == 1) {
         console.log('Paro todos los motores');
+        clearInterval(pulso);
         nivel=0;
         estados = {
             FC0P: 1,
@@ -151,6 +152,25 @@ function stop() {
     EnPin1.writeSync(1);
     EnPin2.writeSync(1);
     EnPin3.writeSync(1);
+    estados = {
+        FC0P: 1,
+        FC01P: 1,
+        FC02P: 1,
+        FC03P: 1,
+        FC1P: 1,
+        FC2P: 1,
+        FC3P: 1,
+        btnA: 1,
+        btnB: 1
+    }
+
+    if(nivel==3){
+     estados.btnB=0;
+    }
+    else{
+        estados.btnA=0;
+        estados.btnB=0;
+    }
 }
 
 
@@ -185,17 +205,6 @@ FC1.watch(function (err, value) {
     }
     if (value == 0 && estados.FC1P == 0) {
         nivel=1;
-        estados = {
-            FC0P: 1,
-            FC01P: 1,
-            FC02P: 1,
-            FC03P: 1,
-            FC1P: 1,
-            FC2P: 1,
-            FC3P: 1,
-            btnA: 0,
-            btnB: 0
-        }
         console.log('FC1');
         IO.emit("messages", "nivel1");
         stop();
@@ -210,19 +219,8 @@ FC2.watch(function (err, value) {
     }
     if (value == 0 && estados.FC2P == 0) {
         nivel=2;
-        estados = {
-            FC0P: 1,
-            FC01P: 1,
-            FC02P: 1,
-            FC03P: 1,
-            FC1P: 1,
-            FC2P: 1,
-            FC3P: 1,
-            btnA: 0,
-            btnB: 0
-        }
         console.log('FC2');
-        IO.emit("messages", "nivel1");
+        IO.emit("messages", "nivel2");
         stop();
         leds(0, 1, 0);
     }
@@ -234,19 +232,9 @@ FC3.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC3P == 0) {
-        estados = {
-            FC0P: 1,
-            FC01P: 1,
-            FC02P: 1,
-            FC03P: 1,
-            FC1P: 1,
-            FC2P: 1,
-            FC3P: 1,
-            btnA: 1,
-            btnB: 0
-        }
+       nivel=3;
         console.log('FC3');
-        IO.emit("messages", "nivel1");
+        IO.emit("messages", "nivel3");
         stop();
         leds(0, 0, 1);
     }
