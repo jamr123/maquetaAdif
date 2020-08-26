@@ -5,6 +5,8 @@ var LED2 = new Gpio(24, 'out');
 var LED3 = new Gpio(25, 'out');
 
 var stepPin = new Gpio(16, 'out');
+var stepPin1 = new Gpio(3, 'out');
+var stepPin2 = new Gpio(2, 'out');
 var dirPin = new Gpio(20, 'out');
 
 var EnPin = new Gpio(21, 'out');
@@ -26,9 +28,11 @@ var FC2 = new Gpio(19, 'in', 'both');
 var FC3 = new Gpio(26, 'in', 'both');
 
 var pulso;
+var pulso1;
+var pulso2;
 var IO;
 
-var nivel=0;
+var nivel = 0;
 
 function dpslog(req, res) {
 
@@ -83,6 +87,9 @@ function setAbajo() {
     EnPin2.writeSync(0);
     EnPin3.writeSync(0);
     pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1), 1);
+    pulso1 = setInterval(_ => stepPin1.writeSync(stepPin1.readSync() ^ 1), 1);
+    pulso2 = setInterval(_ => stepPin2.writeSync(stepPin2.readSync() ^ 1), 1);
+
 
 }
 
@@ -98,16 +105,16 @@ function setArriba() {
         btnA: 1,
         btnB: 1
     }
-    
-    if(nivel==0){
-     estados.FC1P=0;
+
+    if (nivel == 0) {
+        estados.FC1P = 0;
     }
-    if(nivel==1){
-        estados.FC2P=0;
-       }
-       if(nivel==2){
-        estados.FC3P=0;
-       }
+    if (nivel == 1) {
+        estados.FC2P = 0;
+    }
+    if (nivel == 2) {
+        estados.FC3P = 0;
+    }
 
     dirPin.writeSync(0);
     console.log('buscando Arriba');
@@ -117,6 +124,8 @@ function setArriba() {
     EnPin2.writeSync(0);
     EnPin3.writeSync(0);
     pulso = setInterval(_ => stepPin.writeSync(stepPin.readSync() ^ 1), 1);
+    pulso1 = setInterval(_ => stepPin1.writeSync(stepPin1.readSync() ^ 1), 1);
+    pulso2 = setInterval(_ => stepPin2.writeSync(stepPin2.readSync() ^ 1), 1);
 }
 
 function leds(led1, led2, led3) {
@@ -128,8 +137,11 @@ function leds(led1, led2, led3) {
 function eventStopAll() {
     if (estados.FC0P == 1 && estados.FC01P == 1 && estados.FC02P == 1 && estados.FC03P == 1) {
         console.log('Paro todos los motores');
+        leds(0, 0, 0);
         clearInterval(pulso);
-        nivel=0;
+        clearInterval(pulso1);
+        clearInterval(pulso2);
+        nivel = 0;
         estados = {
             FC0P: 1,
             FC01P: 1,
@@ -148,6 +160,8 @@ function eventStopAll() {
 
 function stop() {
     clearInterval(pulso);
+    clearInterval(pulso1);
+    clearInterval(pulso2);
     EnPin.writeSync(1);
     EnPin1.writeSync(1);
     EnPin2.writeSync(1);
@@ -164,12 +178,11 @@ function stop() {
         btnB: 1
     }
 
-    if(nivel==3){
-     estados.btnB=0;
-    }
-    else{
-        estados.btnA=0;
-        estados.btnB=0;
+    if (nivel == 3) {
+        estados.btnB = 0;
+    } else {
+        estados.btnA = 0;
+        estados.btnB = 0;
     }
 }
 
@@ -203,7 +216,7 @@ FC1.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC1P == 0) {
-        nivel=1;
+        nivel = 1;
         console.log('FC1');
         IO.emit("messages", "nivel1");
         stop();
@@ -217,7 +230,7 @@ FC2.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC2P == 0) {
-        nivel=2;
+        nivel = 2;
         console.log('FC2');
         IO.emit("messages", "nivel2");
         stop();
@@ -231,11 +244,11 @@ FC3.watch(function (err, value) {
         return;
     }
     if (value == 0 && estados.FC3P == 0) {
-       nivel=3;
+        nivel = 3;
         console.log('FC3');
         IO.emit("messages", "nivel3");
         stop();
-        leds(0, 0, 1);
+        leds(0, 1, 0);
     }
 });
 
@@ -312,6 +325,8 @@ process.on('SIGINT', _ => {
     LED2.unexport();
     LED3.unexport();
     stepPin.unexport();
+    stepPin1.unexport();
+    stepPin2.unexport();
     EnPin.unexport();
     EnPin1.unexport();
     EnPin2.unexport();
