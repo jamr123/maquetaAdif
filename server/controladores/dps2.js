@@ -50,7 +50,13 @@ function socketSend(io) {
 }
 
 function initAbajo() {
-    setAbajo();
+    setArriba();
+    setTimeout(() => {
+        stop();
+       setTimeout(() => {
+        setAbajo();
+       }, 1000);
+    }, 3000);
 }
 
 var estados = {
