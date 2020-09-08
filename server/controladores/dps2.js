@@ -168,10 +168,6 @@ function stop() {
     clearInterval(pulso);
     clearInterval(pulso1);
     clearInterval(pulso2);
-    EnPin.writeSync(1);
-    EnPin1.writeSync(1);
-    EnPin2.writeSync(1);
-    EnPin3.writeSync(1);
     estados = {
         FC0P: 1,
         FC01P: 1,
