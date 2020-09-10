@@ -147,6 +147,10 @@ function eventStopAll() {
         clearInterval(pulso);
         clearInterval(pulso1);
         clearInterval(pulso2);
+        EnPin.writeSync(0);
+        EnPin1.writeSync(0);
+        EnPin2.writeSync(0);
+        EnPin3.writeSync(0);
         nivel = 0;
         estados = {
             FC0P: 1,
@@ -168,6 +172,10 @@ function stop() {
     clearInterval(pulso);
     clearInterval(pulso1);
     clearInterval(pulso2);
+    EnPin.writeSync(0);
+    EnPin1.writeSync(0);
+    EnPin2.writeSync(0);
+    EnPin3.writeSync(0);
     estados = {
         FC0P: 1,
         FC01P: 1,
